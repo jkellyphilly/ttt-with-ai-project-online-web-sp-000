@@ -1,3 +1,35 @@
 #!/usr/bin/env ruby
 
 require_relative '../config/environment'
+
+cpu_1 = Players::Computer.new("X")
+cpu_2 = Players::Computer.new("O")
+player_1 = Players::Human.new("X")
+player_2 = Players::Human.new("O")
+
+puts "Welcome to Tic Tac Toe!"
+puts "What type of game would you like to play? 0 player (CPU vs. CPU), 1 player (you against the CPU), or 2 player?"
+user_input = gets.strip
+case user_input
+when "0"
+  puts "Starting CPU vs. CPU game..."
+  new_game = Game.new(cpu_1, cpu_2)
+  new_game.play
+when "1"
+  puts "Would you like to go first against the CPU?"
+  go_first = gets.strip
+  if ["Yes", "Y", "yes", "y"].include?(go_first)
+    new_game = Game.new(player_1, cpu_2)
+    puts "Starting game with Human as 'X' and CPU as 'O'..."
+    new_game.play
+  else
+    new_game = Game.new(cpu_1, player_2)
+    puts "Starting game with CPU as 'X' and Human as 'X'..."
+    new_game.play
+  end
+when "2"
+  new_game = Game.new(player_1, player_2)
+  new_game.play
+else
+  puts "Not a valid game type."
+end
